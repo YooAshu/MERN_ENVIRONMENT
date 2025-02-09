@@ -1,10 +1,15 @@
+// imported doteenv to use .env files
 import dotenv from "dotenv";
 dotenv.config({ path: "./.env" }); // ✅ Load environment variables
-import express from "express"
+
+// we will declare all middlewares and routes in app.js i.e all thing related to express()
+import {app} from './app.js'
+
+// importing function for database connection
 import connectDB from "./db/index.js";
 
-const app = express()
-const port = process.env.PORT || 3000; // Use environment variable or fallback to 3000
+// Use environment variable or fallback to 3000
+const port = process.env.PORT || 3000; 
 
 
 connectDB()
