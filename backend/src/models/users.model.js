@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import bcrypt from "bcrypt"
 
 const userSchema = new mongoose.Schema(
     {
@@ -28,18 +29,34 @@ const userSchema = new mongoose.Schema(
         },
         avatarImage: {
             type: String,
-            required:true
+            required: true
         },
-        coverImage:{
-            type:true,
+        coverImage: {
+            type: true,
         },
         refreshToken: {
             type: String
         },
     },
     {
-        timestamps:true
+        timestamps: true
     }
 )
+
+// this mongoose middleware will run just before saving a document
+// we use this to rypt password before saving in db
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password"))
+        return next()
+    this.password = bcrypt.hash(this.password, 10)
+    next()
+
+})
+
+// comparung crypted password with entered password
+// will be used while logon to verify password
+userSchema.method.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password)
+}
 
 export const User = mongoose.model("User", userSchema)
