@@ -10,7 +10,7 @@
 // Ensures proper error handling without crashing the server.
 // We don't have to write try and catch every time when defining app.get('/', function)
 
-const asyncHandler = (fn = async (req, res, next) => {
+const asyncHandler = (fn) => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (error) {
@@ -19,6 +19,6 @@ const asyncHandler = (fn = async (req, res, next) => {
       message: error.message,
     });
   }
-});
+};
 
 export { asyncHandler }
