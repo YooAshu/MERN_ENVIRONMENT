@@ -17,7 +17,8 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
-            lowecase: true
+            lowecase: true,
+            index:true
         },
         password: {
             type: String,
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema(
             required: true
         },
         coverImage: {
-            type: true,
+            type: String,
         },
         refreshToken: {
             type: String
