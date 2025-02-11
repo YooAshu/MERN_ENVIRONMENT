@@ -12,12 +12,12 @@ app.use(cors({
 }))
 
 // Parses JSON data from incoming requests
-app.use(express.json({ limit: "16kb" }))
+app.use(express.json())
 
 // Parses form data (application/x-www-form-urlencoded format).
 // Example: If a client sends:
 // name=John&age=25 it will convert it to json
-app.use(express.urlencoded({ extended: true, limit: "16kb" }))
+app.use(express.urlencoded({ extended: true}))
 
 // This serves static files (like images, CSS, JavaScript, fonts) from the "public" directory.
 app.use(express.static("public"))

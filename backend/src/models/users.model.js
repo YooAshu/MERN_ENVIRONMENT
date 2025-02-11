@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
             required: true,
             unique: true,
             lowecase: true,
-            index:true
+            index: true
         },
         password: {
             type: String,
@@ -48,22 +48,21 @@ const userSchema = new mongoose.Schema(
 // this mongoose middleware will run just before saving a document
 // we use this to rypt password before saving in db
 userSchema.pre("save", async function (next) {
-    if (!this.isModified("password"))
-        return next()
-    this.password = bcrypt.hash(this.password, 10)
-    next()
+    if (!this.isModified("password")) return next();
 
+    this.password = await bcrypt.hash(this.password, 10)
+    next()
 })
 
 // comparung crypted password with entered password
 // will be used while logon to verify password
-userSchema.method.isPasswordCorrect = async function (password) {
+userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
 // function t create refresh token 
 
-userSchema.method.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             _id: this._id
@@ -78,7 +77,7 @@ userSchema.method.generateRefreshToken = function () {
 
 // function t create refresh token 
 
-userSchema.method.generateAccessToken = function () {
+userSchema.methods.generateAccessToken = function () {
     return jwt.sign(
         {
             _id: this._id,
